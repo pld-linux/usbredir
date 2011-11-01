@@ -51,7 +51,8 @@ A simple USB-host TCP server, using libusbredirhost.
 
 %build
 %{__make} \
-	CFLAGS="$RPM_OPT_FLAGS" \
+	CC="%{__cc}" \
+	CFLAGS="%{rpmcflags}" \
 	PREFIX=%{_prefix} \
 	LIBDIR=%{_libdir}
 
@@ -71,14 +72,20 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc ChangeLog README TODO
-%{_libdir}/libusbredir*.so.*
+# no versioned file, so no ghosts
+%attr(755,root,root) %{_libdir}/libusbredirhost.so.1
+%attr(755,root,root) %{_libdir}/libusbredirparser.so.0
 
 %files devel
 %defattr(644,root,root,755)
 %doc usb-redirection-protocol.txt
-%{_includedir}/usbredir*.h
-%{_libdir}/libusbredir*.so
-%{_pkgconfigdir}/libusbredir*.pc
+%{_includedir}/usbredirhost.h
+%{_includedir}/usbredirparser.h
+%{_includedir}/usbredirproto.h
+%{_libdir}/libusbredirhost.so
+%{_libdir}/libusbredirparser.so
+%{_pkgconfigdir}/libusbredirhost.pc
+%{_pkgconfigdir}/libusbredirparser.pc
 
 %files server
 %defattr(644,root,root,755)
