@@ -1,12 +1,13 @@
 Summary:	USB network redirection protocol libraries
+Summary(pl.UTF-8):	Biblioteki protokołu przekierowania USB przez sieć
 Name:		usbredir
 Version:	0.3.1
 Release:	1
 License:	LGPL v2+
 Group:		Libraries
-URL:		http://cgit.freedesktop.org/~jwrdegoede/usbredir/
-Source0:	http://people.fedoraproject.org/~jwrdegoede/%{name}-%{version}.tar.bz2
+Source0:	http://spice-space.org/download/usbredir/%{name}-%{version}.tar.bz2
 # Source0-md5:	17486f1662c65caab805487252274dc6
+URL:		http://cgit.freedesktop.org/~jwrdegoede/usbredir/
 BuildRequires:	libusb-devel >= 1.0.9
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -28,23 +29,48 @@ needs to do is:
 - Monitor for usbredir and libusb read/write events and call their
   handlers
 
+%description -l pl.UTF-8
+usbredir to protokół pozwalający przekierować ruch USB z pojedynczego
+urządzenia USB na inną (wirtualną) maszynę, a następnie na taką, do
+której urządzenie USB jest podłączone. Ten pakiet zawiera biblioteki
+pomagające przy implementacji usbredir:
+
+usbredirparser - biblioteka zawierająca analizator protokołu usbredir
+
+usbredirhost - biblioteka implementująca stronę hosta USB połączenia
+usbredir. Wszystko, co musi zrobić aplikacja chcąca implementować
+host USB, to:
+- zapewnienie uchwytu libusb dla urządzenia USB
+- zapewnienie wywołań zapisu i odczytu dla transportu danych usbredir
+- monitorowanie zdarzeń odczytu/zapisu usbredir oraz libusb i
+  wywoływanie ich procedur obsługi.
+
 %package devel
 Summary:	Development files for usbredir
+Summary(pl.UTF-8):	Pliki programistyczne usbredir
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description devel
-This package contains libraries and header files for developing
-applications that use usbredir.
+This package contains the header files for developing applications
+that use usbredir.
+
+%description devel -l pl.UTF-8
+Ten pakiet zawiera pliki nagłówkowe do tworzenia aplikacji
+wykorzystujących usbredir.
 
 %package server
 Summary:	Simple USB-host TCP server
+Summary(pl.UTF-8):	Prosty serwer TCP hosta USB
 License:	GPL v2+
 Group:		Daemons
 Requires:	%{name} = %{version}-%{release}
 
 %description server
 A simple USB-host TCP server, using libusbredirhost.
+
+%description server -l pl.UTF-8
+Prosty serwer TCP hosta USB wykorzystujący libusbredirhost.
 
 %prep
 %setup -q
