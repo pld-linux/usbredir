@@ -1,14 +1,15 @@
 Summary:	USB network redirection protocol libraries
 Summary(pl.UTF-8):	Biblioteki protokołu przekierowania USB przez sieć
 Name:		usbredir
-Version:	0.3.1
+Version:	0.3.2
 Release:	1
 License:	LGPL v2+
 Group:		Libraries
 Source0:	http://spice-space.org/download/usbredir/%{name}-%{version}.tar.bz2
-# Source0-md5:	17486f1662c65caab805487252274dc6
+# Source0-md5:	0cccb6edc18ac61d34c3a08216d0b523
 URL:		http://cgit.freedesktop.org/~jwrdegoede/usbredir/
 BuildRequires:	libusb-devel >= 1.0.9
+BuildRequires:	pkgconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -50,6 +51,7 @@ Summary:	Development files for usbredir
 Summary(pl.UTF-8):	Pliki programistyczne usbredir
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	libusb-devel >= 1.0.9
 
 %description devel
 This package contains the header files for developing applications
@@ -58,6 +60,18 @@ that use usbredir.
 %description devel -l pl.UTF-8
 Ten pakiet zawiera pliki nagłówkowe do tworzenia aplikacji
 wykorzystujących usbredir.
+
+%package static
+Summary:	Static usbredir libraries
+Summary(pl.UTF-8):	Statyczne biblioteki usbredir
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
+
+%description static
+Static usbredir libraries.
+
+%description static -l pl.UTF-8
+Statyczne biblioteki usbredir.
 
 %package server
 Summary:	Simple USB-host TCP server
@@ -76,18 +90,18 @@ Prosty serwer TCP hosta USB wykorzystujący libusbredirhost.
 %setup -q
 
 %build
-%{__make} \
-	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags}" \
-	PREFIX=%{_prefix} \
-	LIBDIR=%{_libdir}
+%configure \
+	--disable-silent-rules
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
 %{__make} install \
-	PREFIX=%{_prefix} \
-	LIBDIR=%{_libdir} \
 	DESTDIR=$RPM_BUILD_ROOT
+
+# obsoleted by pkg-config
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/lib*.la
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -97,21 +111,27 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc ChangeLog README TODO
-# no versioned file, so no ghosts
-%attr(755,root,root) %{_libdir}/libusbredirhost.so.1
-%attr(755,root,root) %{_libdir}/libusbredirparser.so.0
+%doc ChangeLog README README.multi-thread TODO
+%attr(755,root,root) %{_libdir}/libusbredirhost.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libusbredirhost.so.1
+%attr(755,root,root) %{_libdir}/libusbredirparser.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libusbredirparser.so.0
 
 %files devel
 %defattr(644,root,root,755)
 %doc usb-redirection-protocol.txt
+%attr(755,root,root) %{_libdir}/libusbredirhost.so
+%attr(755,root,root) %{_libdir}/libusbredirparser.so
 %{_includedir}/usbredirhost.h
 %{_includedir}/usbredirparser.h
 %{_includedir}/usbredirproto.h
-%{_libdir}/libusbredirhost.so
-%{_libdir}/libusbredirparser.so
 %{_pkgconfigdir}/libusbredirhost.pc
 %{_pkgconfigdir}/libusbredirparser.pc
+
+%files static
+%defattr(644,root,root,755)
+%{_libdir}/libusbredirhost.a
+%{_libdir}/libusbredirparser.a
 
 %files server
 %defattr(644,root,root,755)
