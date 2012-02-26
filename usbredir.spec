@@ -1,12 +1,12 @@
 Summary:	USB network redirection protocol libraries
 Summary(pl.UTF-8):	Biblioteki protokołu przekierowania USB przez sieć
 Name:		usbredir
-Version:	0.4
+Version:	0.4.1
 Release:	1
 License:	LGPL v2+
 Group:		Libraries
 Source0:	http://spice-space.org/download/usbredir/%{name}-%{version}.tar.bz2
-# Source0-md5:	156b11e3325b4c5c8af692e001f741d1
+# Source0-md5:	11e2201018fba4b7af8751ebba91eb8e
 URL:		http://cgit.freedesktop.org/~jwrdegoede/usbredir/
 BuildRequires:	libusb-devel >= 1.0.9
 BuildRequires:	pkgconfig
