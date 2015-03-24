@@ -3,7 +3,7 @@ Summary:	USB network redirection protocol libraries
 Summary(pl.UTF-8):	Biblioteki protokołu przekierowania USB przez sieć
 Name:		usbredir
 Version:	0.7
-Release:	1
+Release:	2
 License:	LGPL v2+
 Group:		Libraries
 Source0:	http://www.spice-space.org/download/usbredir/%{name}-%{version}.tar.bz2
