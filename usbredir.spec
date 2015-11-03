@@ -1,17 +1,16 @@
-# TODO: libusb-devel >= 1.0.19 when released (for bulk streams support)
 Summary:	USB network redirection protocol libraries
 Summary(pl.UTF-8):	Biblioteki protokołu przekierowania USB przez sieć
 Name:		usbredir
-Version:	0.7
-Release:	2
+Version:	0.7.1
+Release:	1
 License:	LGPL v2+
 Group:		Libraries
 Source0:	http://www.spice-space.org/download/usbredir/%{name}-%{version}.tar.bz2
-# Source0-md5:	bc096f160e4ebb848c3a0f0fbf9500fc
+# Source0-md5:	35cfb1720967727dea523b943cc4126b
 URL:		http://cgit.freedesktop.org/~jwrdegoede/usbredir/
-BuildRequires:	libusb-devel >= 1.0.9
+BuildRequires:	libusb-devel >= 1.0.19
 BuildRequires:	pkgconfig
-Requires:	libusb >= 1.0.9
+Requires:	libusb >= 1.0.19
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -53,7 +52,7 @@ Summary:	Development files for usbredir
 Summary(pl.UTF-8):	Pliki programistyczne usbredir
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	libusb-devel >= 1.0.9
+Requires:	libusb-devel >= 1.0.19
 
 %description devel
 This package contains the header files for developing applications
