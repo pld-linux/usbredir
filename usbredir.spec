@@ -1,15 +1,22 @@
 Summary:	USB network redirection protocol libraries
 Summary(pl.UTF-8):	Biblioteki protokołu przekierowania USB przez sieć
 Name:		usbredir
-Version:	0.8.0
+Version:	0.12.0
 Release:	1
 License:	LGPL v2+
 Group:		Libraries
-Source0:	https://www.spice-space.org/download/usbredir/%{name}-%{version}.tar.bz2
-# Source0-md5:	c1a15225a1b97f3c4bccb10e03f3750b
+Source0:	https://www.spice-space.org/download/usbredir/%{name}-%{version}.tar.xz
+# Source0-md5:	dc7e2867a123c151573cb5f2dae4874e
 URL:		https://www.spice-space.org/usbredir.html
+BuildRequires:	glib2-devel >= 1:2.44
 BuildRequires:	libusb-devel >= 1.0.19
+BuildRequires:	meson >= 0.53
+BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
+BuildRequires:	rpmbuild(macros) >= 1.736
+BuildRequires:	tar >= 1:1.22
+BuildRequires:	xz
+Requires:	glib2 >= 1:2.44
 Requires:	libusb >= 1.0.19
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -91,18 +98,14 @@ Prosty serwer TCP hosta USB wykorzystujący libusbredirhost.
 %setup -q
 
 %build
-%configure \
-	--disable-silent-rules
-%{__make}
+%meson build
+
+%ninja_build -C build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
-
-# obsoleted by pkg-config
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/lib*.la
+%ninja_install -C build
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -112,15 +115,17 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc ChangeLog README README.multi-thread TODO
+%doc ChangeLog.md README.md TODO
+%attr(755,root,root) %{_bindir}/usbredirect
 %attr(755,root,root) %{_libdir}/libusbredirhost.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libusbredirhost.so.1
 %attr(755,root,root) %{_libdir}/libusbredirparser.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libusbredirparser.so.1
+%{_mandir}/man1/usbredirect.1*
 
 %files devel
 %defattr(644,root,root,755)
-%doc usb-redirection-protocol.txt
+%doc docs/*.md
 %attr(755,root,root) %{_libdir}/libusbredirhost.so
 %attr(755,root,root) %{_libdir}/libusbredirparser.so
 %{_includedir}/usbredirfilter.h
