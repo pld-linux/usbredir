@@ -1,12 +1,12 @@
 Summary:	USB network redirection protocol libraries
 Summary(pl.UTF-8):	Biblioteki protokołu przekierowania USB przez sieć
 Name:		usbredir
-Version:	0.12.0
+Version:	0.13.0
 Release:	1
 License:	LGPL v2+
 Group:		Libraries
 Source0:	https://www.spice-space.org/download/usbredir/%{name}-%{version}.tar.xz
-# Source0-md5:	dc7e2867a123c151573cb5f2dae4874e
+# Source0-md5:	8b6766c0de82cb686486ea141b25f5f2
 URL:		https://www.spice-space.org/usbredir.html
 BuildRequires:	glib2-devel >= 1:2.44
 BuildRequires:	libusb-devel >= 1.0.19
@@ -18,6 +18,7 @@ BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 Requires:	glib2 >= 1:2.44
 Requires:	libusb >= 1.0.19
+Obsoletes:	usbredir-server < 0.13
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -81,19 +82,6 @@ Static usbredir libraries.
 %description static -l pl.UTF-8
 Statyczne biblioteki usbredir.
 
-%package server
-Summary:	Simple USB-host TCP server
-Summary(pl.UTF-8):	Prosty serwer TCP hosta USB
-License:	GPL v2+
-Group:		Daemons
-Requires:	%{name} = %{version}-%{release}
-
-%description server
-A simple USB-host TCP server, using libusbredirhost.
-
-%description server -l pl.UTF-8
-Prosty serwer TCP hosta USB wykorzystujący libusbredirhost.
-
 %prep
 %setup -q
 
@@ -139,8 +127,3 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libusbredirhost.a
 %{_libdir}/libusbredirparser.a
-
-%files server
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_sbindir}/usbredirserver
-%{_mandir}/man1/usbredirserver.1*
