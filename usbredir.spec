@@ -1,19 +1,19 @@
 Summary:	USB network redirection protocol libraries
 Summary(pl.UTF-8):	Biblioteki protokołu przekierowania USB przez sieć
 Name:		usbredir
-Version:	0.14.0
+Version:	0.15.0
 Release:	1
 License:	LGPL v2+
 Group:		Libraries
 Source0:	https://www.spice-space.org/download/usbredir/%{name}-%{version}.tar.xz
-# Source0-md5:	68f232c87c086a25c13fc71ddbdc28a5
+# Source0-md5:	5ebe2bb840fd538a95c9089d0a782458
 URL:		https://www.spice-space.org/usbredir.html
 BuildRequires:	glib2-devel >= 1:2.44
 BuildRequires:	libusb-devel >= 1.0.19
 BuildRequires:	meson >= 0.53
 BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
-BuildRequires:	rpmbuild(macros) >= 1.736
+BuildRequires:	rpmbuild(macros) >= 2.042
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 Requires:	glib2 >= 1:2.44
@@ -86,14 +86,15 @@ Statyczne biblioteki usbredir.
 %setup -q
 
 %build
-%meson build
+%meson \
+	-Dgit_werror=disabled
 
-%ninja_build -C build
+%meson_build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%ninja_install -C build
+%meson_install
 
 %clean
 rm -rf $RPM_BUILD_ROOT
